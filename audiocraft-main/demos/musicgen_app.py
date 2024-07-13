@@ -245,7 +245,7 @@ def ui_full(launch_kwargs):
     with gr.Blocks() as interface:
         gr.Markdown(
             """
-111
+ 
 <h1>音乐大模型，启动！</h1>
 这是 [MusicGen](https://github.com/facebookresearch/audiocraft/blob/main/docs/MUSICGEN.md) 的演示页面，
 一个简单且可控的音乐生成模型，介绍在：["Simple and Controllable Music Generation"](https://huggingface.co/papers/2306.05284)。
@@ -272,11 +272,7 @@ def ui_full(launch_kwargs):
                     # Adapted from https://github.com/rkfg/audiocraft/blob/long/app.py, MIT license.
                     _ = gr.Button("停止生成").click(fn=interrupt, queue=False)
                 with gr.Row():
-                    model = gr.Radio(["facebook/musicgen-melody", "facebook/musicgen-medium", "facebook/musicgen-small",
-                                      "facebook/musicgen-large", "facebook/musicgen-melody-large",
-                                      "facebook/musicgen-stereo-small", "facebook/musicgen-stereo-medium",
-                                      "facebook/musicgen-stereo-melody", "facebook/musicgen-stereo-large",
-                                      "facebook/musicgen-stereo-melody-large"],
+                    model = gr.Radio(["facebook/musicgen-medium"],
                                      label="模型", value="facebook/musicgen-stereo-melody", interactive=True)
                     model_path = gr.Text(label="模型路径（自定义模型）")
                 with gr.Row():
