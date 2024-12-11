@@ -246,15 +246,10 @@ def ui_full(launch_kwargs):
         gr.Markdown(
             """
  
-<h1>音乐大模型，启动！</h1>
-这是 [MusicGen](https://github.com/facebookresearch/audiocraft/blob/main/docs/MUSICGEN.md) 的演示页面，
-一个简单且可控的音乐生成模型，介绍在：["Simple and Controllable Music Generation"](https://huggingface.co/papers/2306.05284)。
+<h1>音频生成模型</h1>
+这是我们的音频生成模型的演示页面。
 <br/>
-想要体验更长的序列、更多的控制选项，请氪金：
-<a href="https://huggingface.co/spaces/facebook/MusicGen?duplicate=true"
-    style="display: inline-block;margin-top: .5em;margin-right: .25em;" target="_blank">
-<img style="margin-bottom: 0em;display: inline;margin-top: -.25em;"
-    src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a>
+
 
             """
         )
@@ -262,29 +257,34 @@ def ui_full(launch_kwargs):
             with gr.Column():
                 with gr.Row():
                     text = gr.Text(label="请输入文本", interactive=True)
-                    with gr.Column():
-                        radio = gr.Radio(["file", "mic"], value="file",
-                                         label="旋律条件（可选） 文件或麦克风")
-                        melody = gr.Audio(sources=["upload"], type="numpy", label="File",
-                                          interactive=True, elem_id="melody-input")
                 with gr.Row():
                     submit = gr.Button("提交")
                     # Adapted from https://github.com/rkfg/audiocraft/blob/long/app.py, MIT license.
                     _ = gr.Button("停止生成").click(fn=interrupt, queue=False)
-                with gr.Row():
-                    model = gr.Radio(["facebook/musicgen-medium"],
-                                     label="模型", value="facebook/musicgen-stereo-melody", interactive=True)
-                    model_path = gr.Text(label="模型路径（自定义模型）")
-                with gr.Row():
-                    decoder = gr.Radio(["Default", "MultiBand_Diffusion"],
-                                       label="Decoder", value="Default", interactive=True)
-                with gr.Row():
-                    duration = gr.Slider(minimum=1, maximum=120, value=10, label="Duration", interactive=True)
-                with gr.Row():
-                    topk = gr.Number(label="Top-k", value=250, interactive=True)
-                    topp = gr.Number(label="Top-p", value=0, interactive=True)
-                    temperature = gr.Number(label="Temperature", value=1.0, interactive=True)
-                    cfg_coef = gr.Number(label="Classifier Free Guidance", value=3.0, interactive=True)
+                    
+                with gr.Accordion("高级选项", open=False):
+                    with gr.Column():
+                        #radio = gr.Radio(["file", "mic"], value="file",
+                        #                 label="(可选) 输入音频文件，或从麦克风")
+                        radio = "file"
+                        melody = gr.Audio(sources=["upload"], type="numpy", label="(可选) 输入音频文件,以辅助音频生成",
+                                          interactive=True, elem_id="melody-input"
+                                          )
+
+                    with gr.Row():
+                        model = gr.Radio(["facebook/musicgen-medium","facebook/musicgen-melody-large"],
+                                         label="模型", value="facebook/musicgen-melody-large", interactive=True)
+                        model_path = gr.Text(label="模型路径（自定义模型）")
+                    with gr.Row():
+                        decoder = gr.Radio(["Default", "MultiBand_Diffusion"],
+                                           label="Decoder", value="Default", interactive=True)
+                    with gr.Row():
+                        duration = gr.Slider(minimum=1, maximum=120, value=10, label="生成音频长度（单位：秒）", interactive=True)
+                    with gr.Row():
+                        topk = gr.Number(label="Top-k", value=250, interactive=True)
+                        topp = gr.Number(label="Top-p", value=0, interactive=True)
+                        temperature = gr.Number(label="Temperature", value=1.0, interactive=True)
+                        cfg_coef = gr.Number(label="Classifier Free Guidance", value=3.0, interactive=True)
             with gr.Column():
                 output = gr.Video(label="Generated Music")
                 audio_output = gr.Audio(label="Generated Music (wav)", type='filepath')
@@ -294,51 +294,51 @@ def ui_full(launch_kwargs):
                      show_progress=False).then(predict_full, inputs=[model, model_path, decoder, text, melody, duration, topk, topp,
                                                                      temperature, cfg_coef],
                                                outputs=[output, audio_output, diffusion_output, audio_diffusion])
-        radio.change(toggle_audio_src, radio, [melody], queue=False, show_progress=False)
+        #radio.change(toggle_audio_src, radio, [melody], queue=False, show_progress=False) 用于调用麦克风
 
-        gr.Examples(
-            fn=predict_full,
-            examples=[
-                [
-                    "An 80s driving pop song with heavy drums and synth pads in the background",
-                    "./assets/bach.mp3",
-                    "facebook/musicgen-stereo-melody",
-                    "Default"
-                ],
-                [
-                    "A cheerful country song with acoustic guitars",
-                    "./assets/bolero_ravel.mp3",
-                    "facebook/musicgen-stereo-melody",
-                    "Default"
-                ],
-                [
-                    "90s rock song with electric guitar and heavy drums",
-                    None,
-                    "facebook/musicgen-stereo-medium",
-                    "Default"
-                ],
-                [
-                    "a light and cheerly EDM track, with syncopated drums, aery pads, and strong emotions",
-                    "./assets/bach.mp3",
-                    "facebook/musicgen-stereo-melody",
-                    "Default"
-                ],
-                [
-                    "lofi slow bpm electro chill with organic samples",
-                    None,
-                    "facebook/musicgen-stereo-medium",
-                    "Default"
-                ],
-                [
-                    "Punk rock with loud drum and power guitar",
-                    None,
-                    "facebook/musicgen-stereo-medium",
-                    "MultiBand_Diffusion"
-                ],
-            ],
-            inputs=[text, melody, model, decoder],
-            outputs=[output]
-        )
+        #gr.Examples(
+        #    fn=predict_full,
+        #    examples=[
+        #        [
+        #            "An 80s driving pop song with heavy drums and synth pads in the background",
+        #            "./assets/bach.mp3",
+        #            "facebook/musicgen-stereo-melody",
+        #            "Default"
+        #        ],
+        #        [
+        #            "A cheerful country song with acoustic guitars",
+        #            "./assets/bolero_ravel.mp3",
+        #            "facebook/musicgen-stereo-melody",
+        #            "Default"
+        #        ],
+        #        [
+        #            "90s rock song with electric guitar and heavy drums",
+        #           None,
+        #           "facebook/musicgen-stereo-medium",
+        #           "Default"
+        #       ],
+        #       [
+        #           "a light and cheerly EDM track, with syncopated drums, aery pads, and strong emotions",
+        #           "./assets/bach.mp3",
+        #           "facebook/musicgen-stereo-melody",
+        #           "Default"
+        #       ],
+        #       [
+        #           "lofi slow bpm electro chill with organic samples",
+        #           None,
+        #           "facebook/musicgen-stereo-medium",
+        #           "Default"
+        #       ],
+        #       [
+        #           "Punk rock with loud drum and power guitar",
+        #           None,
+        #           "facebook/musicgen-stereo-medium",
+        #           "MultiBand_Diffusion"
+        #       ],
+        #   ],
+        #   inputs=[text, melody, model, decoder],
+        #   outputs=[output]
+        #
         #gr.Markdown(
         #    """
         #    ### More details
@@ -384,7 +384,7 @@ def ui_full(launch_kwargs):
         #    """
         #)
 
-        interface.queue().launch(**launch_kwargs)
+        interface.queue().launch(**launch_kwargs,share=True)
 
 
 def ui_batched(launch_kwargs):
@@ -482,6 +482,7 @@ if __name__ == "__main__":
         '--listen',
         type=str,
         default='0.0.0.0' if 'SPACE_ID' in os.environ else '127.0.0.1',
+        #default='172.25.219.233',
         help='IP to listen on for connections to Gradio',
     )
     parser.add_argument(
@@ -493,7 +494,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--server_port',
         type=int,
-        default=0,
+        default=23456,
         help='Port to run the server listener on',
     )
     parser.add_argument(
@@ -514,8 +515,10 @@ if __name__ == "__main__":
         launch_kwargs['server_port'] = args.server_port
     if args.inbrowser:
         launch_kwargs['inbrowser'] = args.inbrowser
-    if args.share:
-        launch_kwargs['share'] = args.share
+    #if args.share:
+    #    #launch_kwargs['share'] = args.share
+    #    launch_kwargs['share'] = True
+
 
     logging.basicConfig(level=logging.INFO, stream=sys.stderr)
 
