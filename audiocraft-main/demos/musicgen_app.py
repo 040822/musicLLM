@@ -27,6 +27,16 @@ from audiocraft.data.audio_utils import convert_audio
 from audiocraft.data.audio import audio_write
 from audiocraft.models.encodec import InterleaveStereoCompressionModel
 from audiocraft.models import MusicGen, MultiBandDiffusion
+from gradio_client import Client
+import json
+from qwen_agent.agents import Assistant
+
+#qwen_client = Client("http://127.0.0.1:7860/")
+with open(r'audiocraft-main\config\qwen\assistant.json', 'r', encoding='utf-8') as f:
+    assistant_cfg = json.load(f)
+bot = Assistant(**assistant_cfg)
+
+
 
 
 MODEL = None  # Last used model
@@ -240,6 +250,18 @@ def toggle_diffusion(choice):
     else:
         return [gr.update(visible=False)] * 2
 
+def handle_submit(text_value):
+    # 在这里处理提取到的文本值
+    print(f"提取到的文本值: {text_value}")
+    messages = []  # 这里储存聊天历史。
+    messages.append({'role': 'user', 'content': text_value})
+    response = []
+    for response in bot.run(messages=messages):
+        #print('机器人回应:',response)
+        continue
+    result = response[-1]['content']
+    print(f"qwen生成结果: {result}")
+    return result
 
 def ui_full(launch_kwargs):
     with gr.Blocks() as interface:
@@ -256,11 +278,21 @@ def ui_full(launch_kwargs):
         with gr.Row():
             with gr.Column():
                 with gr.Row():
-                    text = gr.Text(label="请输入文本", interactive=True)
+                    text = gr.Text(label="请输入音频模型的输入文本(英文)", interactive=True,value="Example: A cheerful country song with acoustic guitars")
                 with gr.Row():
                     submit = gr.Button("提交")
                     # Adapted from https://github.com/rkfg/audiocraft/blob/long/app.py, MIT license.
                     _ = gr.Button("停止生成").click(fn=interrupt, queue=False)
+                    
+                with gr.Accordion("调用qwen生成prompt", open=False):
+                    text_qwen = gr.Text(label="请输入文本", interactive=True,value="示例：请生成一首热情的钢琴曲")
+                    with gr.Row():
+                        qwen_submit = gr.Button("提交")
+                        # Adapted from https://github.com/rkfg/audiocraft/blob/long/app.py, MIT license.
+                        _ = gr.Button("停止生成").click(fn=interrupt, queue=False)
+                    # 将提交按钮的点击事件绑定到 handle_submit 函数，并将 text_qwen 的值作为输入传递给该函数
+                    #qwen_result = gr.Text(label="qwen生成结果", interactive=True)
+                    qwen_submit.click(fn=handle_submit, inputs=text_qwen, outputs=text)
                     
                 with gr.Accordion("高级选项", open=False):
                     with gr.Column():
@@ -272,9 +304,9 @@ def ui_full(launch_kwargs):
                                           )
 
                     with gr.Row():
-                        model = gr.Radio(["facebook/musicgen-medium","facebook/musicgen-melody-large"],
+                        model = gr.Radio(["sysu/music_model","facebook/musicgen-melody-large"],
                                          label="模型", value="facebook/musicgen-melody-large", interactive=True)
-                        model_path = gr.Text(label="模型路径（自定义模型）")
+                        model_path = gr.Text(label="自定义模型路径（可选，默认为空）")
                     with gr.Row():
                         decoder = gr.Radio(["Default", "MultiBand_Diffusion"],
                                            label="Decoder", value="Default", interactive=True)
@@ -286,8 +318,8 @@ def ui_full(launch_kwargs):
                         temperature = gr.Number(label="Temperature", value=1.0, interactive=True)
                         cfg_coef = gr.Number(label="Classifier Free Guidance", value=3.0, interactive=True)
             with gr.Column():
-                output = gr.Video(label="Generated Music")
-                audio_output = gr.Audio(label="Generated Music (wav)", type='filepath')
+                output = gr.Video(label="生成的音乐(视频，mp4)")
+                audio_output = gr.Audio(label="生成的音乐 (音频，wav)", type='filepath')
                 diffusion_output = gr.Video(label="MultiBand Diffusion Decoder")
                 audio_diffusion = gr.Audio(label="MultiBand Diffusion Decoder (wav)", type='filepath')
         submit.click(toggle_diffusion, decoder, [diffusion_output, audio_diffusion], queue=False,

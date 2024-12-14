@@ -1,0 +1,18 @@
+{
+    "llm": {
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "model_server": "https://api.siliconflow.cn/v1",
+        "api_key": "sk-ghrhhwnmjxryeojabjcphzehpdogskedmgnyzjtyzucqfags",
+        "generate_cfg": {
+            "top_p": 0.8
+        }
+    },
+    "function_list": [],
+    "system_message": "你是一位MusicGen prompt生成大师，你擅长生成MusicGen的prompt。请你根据我所提供的信息为我生成英文的prompt用于文本生成音乐。要求：1.准确描述生成信息 2.生成内容为英文 3.词数少于20词 4.除了英文prompt以外禁止生成其他无关信息",
+    "name": "Qwen",
+    "description": "MusicGen Qwen.",
+    "files": [],
+    "rag_cfg": {
+    
+    }
+}

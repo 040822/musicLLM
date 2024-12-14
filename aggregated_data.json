@@ -1,0 +1,172 @@
+[
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\03 Ryu - bloomin' feeling.mp3",
+        "duration": 104,
+        "sample_rate": 44100,
+        "description": "A cool song from RYU.",
+        "keywords": "electronic, pulsing, Upbeat",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "03 Ryu - bloomin' feeling",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "uplifting",
+            "Energizing"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\14 Saika.mp3",
+        "duration": 135,
+        "sample_rate": 44100,
+        "description": "A cool song from RABPIT.",
+        "keywords": "energetic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "14 Saika",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "uplifting",
+            "arousing"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\Akira Complex - HYPERSYNTHETIC.mp3",
+        "duration": 274,
+        "sample_rate": 44100,
+        "description": "A cool song from Akira Complex.",
+        "keywords": "Complex, pulsing, Powerful",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "Akira Complex - HYPERSYNTHETIC",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "uplifting",
+            "Mysterious"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\Almagest.mp3",
+        "duration": 99,
+        "sample_rate": 44100,
+        "description": "A cool song from DJ YOSHITAKA.",
+        "keywords": "Complex, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "Almagest",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "uplifting",
+            "Energizing"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\ARForest - Digital Warrior.mp3",
+        "duration": 262,
+        "sample_rate": 44100,
+        "description": "A cool song from ARForest.",
+        "keywords": "Rhythmic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "ARForest - Digital Warrior",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "Nostalgic",
+            "hopeful"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\a_hisa - Dysthymia.mp3",
+        "duration": 231,
+        "sample_rate": 44100,
+        "description": "A cool song from a_hisa.",
+        "keywords": "Majestic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "a_hisa - Dysthymia",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "Melancholic",
+            "Energizing"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\Blacklolita - Antithese.mp3",
+        "duration": 141,
+        "sample_rate": 44100,
+        "description": "A cool song from Blacklolita.",
+        "keywords": "Energetic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "Blacklolita - Antithese",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "Rebellious",
+            "motivational"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\boss rush.mp3",
+        "duration": 126,
+        "sample_rate": 44100,
+        "description": "A cool song from USAO.",
+        "keywords": "Rhythmic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "boss rush",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "Angry",
+            "motivational"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\conflict.mp3",
+        "duration": 159,
+        "sample_rate": 44100,
+        "description": "A cool song from siromaru/Cranky.",
+        "keywords": "Rhythmic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "conflict",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "Lyrical",
+            "motivational"
+        ],
+        "file_extension": "mp3"
+    },
+    {
+        "path": "audiocraft-main\\dataset\\game musics标记\\DJ TOTTO - Adularia.mp3",
+        "duration": 119,
+        "sample_rate": 44100,
+        "description": "A cool song from DJ TOTTO.",
+        "keywords": "Majestic, pulsing, cool",
+        "bpm": "",
+        "genre": "electronic",
+        "title": "DJ TOTTO - Adularia",
+        "name": "electro_1",
+        "instrument": "Mix",
+        "moods": [
+            "uplifting",
+            "motivational"
+        ],
+        "file_extension": "mp3"
+    }
+]

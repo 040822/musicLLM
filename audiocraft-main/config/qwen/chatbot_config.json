@@ -1,0 +1,15 @@
+{
+    "user.name": "040822",
+    "user.avatar": "assets\\user.jpeg",
+    "agent.avatar": "assets\\logo.jpeg",
+    "input.placeholder": "跟我聊聊吧～",
+    "prompt.suggestions": [
+        {
+            "text": "你是谁"
+        },
+        {
+            "text": "第二章第一句话是什么？"
+        }
+    ],
+    "verbose":false
+}
