@@ -198,12 +198,11 @@ class StreamingMultiheadAttention(StreamingModule):
             num_kv = num_heads // kv_repeat
             kv_dim = (embed_dim // num_heads) * num_kv
             out_dim += 2 * kv_dim
-            in_proj = nn.Linear(embed_dim, out_dim, bias=bias, **factory_kwargs)
-            # We try to follow the default PyTorch MHA convention, to easily compare results.
+            in_proj = nn.Linear(embed_dim, out_dim, bias=bias, **factory_kwargs)# 输入层
             self.in_proj_weight = in_proj.weight
             self.in_proj_bias = in_proj.bias
             if bias:
-                self.in_proj_bias.data.zero_()  # Following Pytorch convention
+                self.in_proj_bias.data.zero_()  # 偏置初始化为0
             self.out_proj = nn.Linear(embed_dim, embed_dim, bias=bias, **factory_kwargs)
             if bias:
                 self.out_proj.bias.data.zero_()
@@ -212,13 +211,13 @@ class StreamingMultiheadAttention(StreamingModule):
             assert kv_repeat == 1
             self.mha = nn.MultiheadAttention(
                 embed_dim, num_heads, dropout=dropout, bias=bias, batch_first=True,
-                **factory_kwargs)
+                **factory_kwargs) # 定义多头注意力网络
         self.qk_layer_norm = qk_layer_norm
         if qk_layer_norm:
             assert self.custom
             assert kv_repeat == 1
             ln_dim = embed_dim
-            self.q_layer_norm = nn.LayerNorm(ln_dim)
+            self.q_layer_norm = nn.LayerNorm(ln_dim) # 定义q、k的LayerNorm
             self.k_layer_norm = nn.LayerNorm(ln_dim)
 
     def _load_from_state_dict(self, state_dict, prefix, *args, **kwargs):

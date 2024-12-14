@@ -346,10 +346,10 @@ class MusicGenSolver(base.StandardSolver):
             torch.cuda.set_sync_debug_mode('warn')
 
         with self.autocast:
-            model_output = self.model.compute_predictions(audio_tokens, [], condition_tensors)  
+            model_output = self.model.compute_predictions(audio_tokens, [], condition_tensors)  # 前向传播，获得模型输出 
             logits = model_output.logits
-            mask = padding_mask & model_output.mask
-            ce, ce_per_codebook = self._compute_cross_entropy(logits, audio_tokens, mask)
+            mask = padding_mask & model_output.mask # mask掩码
+            ce, ce_per_codebook = self._compute_cross_entropy(logits, audio_tokens, mask) # 计算交叉熵
             loss = ce
         self.deadlock_detect.update('loss')
 
@@ -359,19 +359,12 @@ class MusicGenSolver(base.StandardSolver):
         if self.is_training:
             metrics['lr'] = self.optimizer.param_groups[0]['lr']
             if self.scaler is not None:
-                loss = self.scaler.scale(loss)
+                loss = self.scaler.scale(loss) # loss缩放，用于混合精度训练
             self.deadlock_detect.update('scale')
-            if self.cfg.fsdp.use:
-                loss.backward()
-                flashy.distrib.average_tensors(self.model.buffers())
-            elif self.cfg.optim.eager_sync:
-                with flashy.distrib.eager_sync_model(self.model):
-                    loss.backward()
-            else:
-                # this should always be slower but can be useful
-                # for weird use cases like multiple backwards.
-                loss.backward()
-                flashy.distrib.sync_model(self.model)
+
+            loss.backward() # 反向传播
+            flashy.distrib.average_tensors(self.model.buffers())
+
             self.deadlock_detect.update('backward')
 
             if self.scaler is not None:
