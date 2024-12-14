@@ -45,6 +45,15 @@ dataset:
     mix_snr_high: 5
     mix_min_overlap: 0.5
 
+datasource:
+  max_sample_rate: 16000
+  max_channels: 1
+
+  train: egs/example/data
+  valid: null
+  evaluate: null
+  generate: null
+
 generate:
   lm:
     use_sampling: true

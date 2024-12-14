@@ -46,7 +46,7 @@ wandb:
 # SLURM launcher configuration.
 slurm:
   gpus: 4  # convenience parameter, number of GPUs to use.
-  mem_per_gpu: 40  # in GB, total mem is automatically scaled with `gpus`.
+  mem_per_gpu: 24  # in GB, total mem is automatically scaled with `gpus`.
   time: 3600
   constraint:
   partition:
@@ -73,3 +73,12 @@ dora:
   # the exact commit. Your repo must be absolutely pristine clean.
   # Local `dora run` are not impacted for easier debugging.
   git_save: true
+
+datasource:
+  max_sample_rate: 32000
+  max_channels: 1
+
+  train: egs/example/train_data.jsonl
+  valid: egs/example/valid_data.jsonl
+  evaluate: null
+  generate: null

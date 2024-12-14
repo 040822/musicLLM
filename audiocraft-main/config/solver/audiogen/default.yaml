@@ -21,9 +21,18 @@ tokens:
   padding_with_special_token: false
 
 dataset:
-  batch_size: 128
+  batch_size: 64
   segment_duration: 10
   min_segment_ratio: 1.0  # lower values such as 0.5 result in generations with a lot of silence.
+
+datasource:
+  max_sample_rate: 32000
+  max_channels: 1
+
+  train: egs/example/data
+  valid: null
+  evaluate: null
+  generate: null
 
 optim:
   epochs: 100
